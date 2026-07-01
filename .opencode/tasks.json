@@ -1,8 +1,0 @@
-{
-  "tasks": [
-    { "id": 1, "description": "Fix shared mutable reference bug in add_edit_reminder_screen.dart (_categoryFields, _selectedDays)", "status": "done" },
-    { "id": 2, "description": "Fix missing mounted check in home_screen.dart _deleteReminder", "status": "done" },
-    { "id": 3, "description": "Fix unhandled async Future in Timer callback in smart_followup_sheet.dart", "status": "done" }
-  ],
-  "completed": true
-}
