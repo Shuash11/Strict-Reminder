@@ -104,7 +104,7 @@ class UpdateService {
   }
 
   static String _currentAppVersion() {
-    return '1.0.0';
+    return '1.0.1';
   }
 
   static bool _isVersionNewer(String latest, String current) {
