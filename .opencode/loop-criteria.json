@@ -1,0 +1,12 @@
+{
+  "criteria": [
+    "All 83 existing tests pass (flutter test exit 0)",
+    "flutter analyze has 0 warnings, 0 errors (1 info ok)",
+    "Database service: no missing CRUD ops, no SQL injection, cascade deletes work correctly",
+    "Alarm service + notification service: no null safety issues, no unhandled exceptions, no timer leaks",
+    "Screens: no BuildContext usage across async gaps, no state management bugs"
+  ],
+  "maxIterations": 3,
+  "noProgressLimit": 2,
+  "escalationMessage": "Final bug check loop: unable to clear all criteria after {iterations} iterations."
+}
