@@ -1,0 +1,717 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>ForReal — Reminders That Stick</title>
+  <meta name="description" content="ForReal is a strict reminder app with smart follow-ups, escalation alarms, and 7 reminder categories to keep you on track.">
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&display=swap" rel="stylesheet">
+  <style>
+    *, *::before, *::after {
+      box-sizing: border-box;
+      margin: 0;
+      padding: 0;
+    }
+
+    :root {
+      --bg-primary: #1A1A2E;
+      --bg-surface: #16213E;
+      --bg-card: #1E2A4A;
+      --accent: #FF8C00;
+      --accent-hover: #E67E00;
+      --green: #4CAF50;
+      --text-primary: rgba(255,255,255,0.87);
+      --text-secondary: rgba(255,255,255,0.6);
+      --text-muted: rgba(255,255,255,0.3);
+      --border: rgba(255,255,255,0.1);
+      --radius: 12px;
+      --max-width: 1100px;
+    }
+
+    html {
+      scroll-behavior: smooth;
+    }
+
+    body {
+      font-family: Inter, system-ui, -apple-system, sans-serif;
+      background: var(--bg-primary);
+      color: var(--text-primary);
+      line-height: 1.5;
+      -webkit-font-smoothing: antialiased;
+    }
+
+    .container {
+      max-width: var(--max-width);
+      margin: 0 auto;
+      padding: 0 24px;
+    }
+
+    /* Nav */
+    nav {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      padding: 20px 24px;
+      max-width: var(--max-width);
+      margin: 0 auto;
+    }
+
+    .logo {
+      font-size: 22px;
+      font-weight: 700;
+      letter-spacing: -0.3px;
+    }
+
+    .logo span {
+      color: var(--accent);
+    }
+
+    .nav-actions {
+      display: flex;
+      gap: 12px;
+      align-items: center;
+    }
+
+    .nav-actions a {
+      color: var(--text-secondary);
+      text-decoration: none;
+      font-size: 14px;
+      font-weight: 500;
+      transition: color 0.2s;
+    }
+
+    .nav-actions a:hover {
+      color: var(--text-primary);
+    }
+
+    .btn {
+      display: inline-flex;
+      align-items: center;
+      gap: 8px;
+      padding: 12px 24px;
+      border-radius: var(--radius);
+      font-family: inherit;
+      font-size: 15px;
+      font-weight: 600;
+      text-decoration: none;
+      transition: all 0.2s;
+      cursor: pointer;
+      border: none;
+    }
+
+    .btn-primary {
+      background: var(--accent);
+      color: #0A0A0A;
+    }
+
+    .btn-primary:hover {
+      background: var(--accent-hover);
+      transform: translateY(-1px);
+    }
+
+    .btn-outline {
+      background: transparent;
+      color: var(--text-primary);
+      border: 1.5px solid var(--border);
+    }
+
+    .btn-outline:hover {
+      border-color: var(--text-secondary);
+      background: rgba(255,255,255,0.05);
+    }
+
+    .btn-lg {
+      padding: 16px 32px;
+      font-size: 17px;
+    }
+
+    /* Hero */
+    .hero {
+      text-align: center;
+      padding: 80px 0 100px;
+      position: relative;
+      overflow: hidden;
+    }
+
+    .hero::before {
+      content: '';
+      position: absolute;
+      top: -50%;
+      left: 50%;
+      transform: translateX(-50%);
+      width: 600px;
+      height: 600px;
+      background: radial-gradient(circle, rgba(255,140,0,0.06) 0%, transparent 70%);
+      pointer-events: none;
+    }
+
+    .hero-badge {
+      display: inline-flex;
+      align-items: center;
+      gap: 6px;
+      background: rgba(76,175,80,0.15);
+      border: 1px solid rgba(76,175,80,0.3);
+      padding: 6px 14px;
+      border-radius: 999px;
+      font-size: 12px;
+      font-weight: 600;
+      color: var(--green);
+      margin-bottom: 24px;
+    }
+
+    .hero-badge::before {
+      content: '';
+      width: 6px;
+      height: 6px;
+      border-radius: 50%;
+      background: var(--green);
+    }
+
+    .hero h1 {
+      font-size: clamp(40px, 6vw, 64px);
+      font-weight: 800;
+      line-height: 1.1;
+      letter-spacing: -1px;
+      margin-bottom: 16px;
+    }
+
+    .hero h1 span {
+      color: var(--accent);
+    }
+
+    .hero-sub {
+      font-size: clamp(16px, 2.5vw, 20px);
+      color: var(--text-secondary);
+      max-width: 600px;
+      margin: 0 auto 32px;
+      line-height: 1.6;
+    }
+
+    .hero-actions {
+      display: flex;
+      gap: 12px;
+      justify-content: center;
+      flex-wrap: wrap;
+    }
+
+    .hero-mockup {
+      margin-top: 60px;
+      display: flex;
+      justify-content: center;
+      gap: 24px;
+      flex-wrap: wrap;
+    }
+
+    .mockup-phone {
+      width: 240px;
+      border-radius: 24px;
+      border: 2px solid var(--border);
+      overflow: hidden;
+      box-shadow: 0 20px 60px rgba(0,0,0,0.4);
+      transition: transform 0.3s;
+    }
+
+    .mockup-phone:hover {
+      transform: translateY(-4px);
+    }
+
+    .mockup-phone img {
+      width: 100%;
+      display: block;
+    }
+
+    /* Section common */
+    section {
+      padding: 80px 0;
+    }
+
+    .section-label {
+      font-size: 12px;
+      font-weight: 600;
+      text-transform: uppercase;
+      letter-spacing: 1.5px;
+      color: var(--accent);
+      margin-bottom: 12px;
+    }
+
+    .section-title {
+      font-size: clamp(28px, 4vw, 36px);
+      font-weight: 700;
+      line-height: 1.2;
+      margin-bottom: 16px;
+    }
+
+    .section-desc {
+      font-size: 16px;
+      color: var(--text-secondary);
+      max-width: 560px;
+      line-height: 1.6;
+    }
+
+    /* Features */
+    .features-header {
+      text-align: center;
+      margin-bottom: 48px;
+    }
+
+    .features-header .section-desc {
+      margin: 0 auto;
+    }
+
+    .features-grid {
+      display: grid;
+      grid-template-columns: repeat(auto-fill, minmax(280px, 1fr));
+      gap: 16px;
+    }
+
+    .feature-card {
+      background: var(--bg-card);
+      border: 1px solid var(--border);
+      border-radius: var(--radius);
+      padding: 24px;
+      transition: all 0.2s;
+    }
+
+    .feature-card:hover {
+      border-color: rgba(255,255,255,0.2);
+      transform: translateY(-2px);
+    }
+
+    .feature-icon {
+      width: 40px;
+      height: 40px;
+      border-radius: 10px;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      font-size: 20px;
+      margin-bottom: 14px;
+      background: rgba(255,140,0,0.12);
+      color: var(--accent);
+    }
+
+    .feature-icon.green {
+      background: rgba(76,175,80,0.12);
+      color: var(--green);
+    }
+
+    .feature-icon.amber {
+      background: rgba(255,193,7,0.12);
+      color: #FFC107;
+    }
+
+    .feature-icon.blue {
+      background: rgba(33,150,243,0.12);
+      color: #2196F3;
+    }
+
+    .feature-icon.purple {
+      background: rgba(156,39,176,0.12);
+      color: #9C27B0;
+    }
+
+    .feature-icon.teal {
+      background: rgba(0,188,212,0.12);
+      color: #00BCD4;
+    }
+
+    .feature-icon.pink {
+      background: rgba(233,30,99,0.12);
+      color: #E91E63;
+    }
+
+    .feature-card h3 {
+      font-size: 16px;
+      font-weight: 600;
+      margin-bottom: 6px;
+    }
+
+    .feature-card p {
+      font-size: 13px;
+      color: var(--text-secondary);
+      line-height: 1.5;
+    }
+
+    /* Smart Features highlight */
+    .highlights {
+      display: grid;
+      grid-template-columns: repeat(auto-fill, minmax(320px, 1fr));
+      gap: 16px;
+      margin-top: 24px;
+    }
+
+    .highlight-card {
+      background: var(--bg-surface);
+      border: 1px solid var(--border);
+      border-radius: var(--radius);
+      padding: 28px;
+      display: flex;
+      gap: 16px;
+      align-items: flex-start;
+    }
+
+    .highlight-card .h-icon {
+      width: 44px;
+      height: 44px;
+      border-radius: 12px;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      font-size: 22px;
+      flex-shrink: 0;
+    }
+
+    .highlight-card h3 {
+      font-size: 16px;
+      font-weight: 600;
+      margin-bottom: 4px;
+    }
+
+    .highlight-card p {
+      font-size: 13px;
+      color: var(--text-secondary);
+      line-height: 1.5;
+    }
+
+    /* Screenshots */
+    .screenshots {
+      background: var(--bg-surface);
+    }
+
+    .screenshots .container {
+      text-align: center;
+    }
+
+    .screenshots .section-desc {
+      margin: 0 auto 40px;
+    }
+
+    .screenshot-grid {
+      display: flex;
+      gap: 24px;
+      justify-content: center;
+      flex-wrap: wrap;
+    }
+
+    .screenshot-card {
+      width: 260px;
+      text-align: center;
+    }
+
+    .screenshot-card .phone-frame {
+      border-radius: 20px;
+      border: 2px solid var(--border);
+      overflow: hidden;
+      margin-bottom: 12px;
+      background: #0D1B2A;
+      box-shadow: 0 12px 40px rgba(0,0,0,0.3);
+    }
+
+    .screenshot-card .phone-frame img {
+      width: 100%;
+      display: block;
+    }
+
+    .screenshot-card .label {
+      font-size: 13px;
+      font-weight: 500;
+      color: var(--text-secondary);
+    }
+
+    /* Download CTA */
+    .download {
+      text-align: center;
+      padding: 100px 0;
+    }
+
+    .download-version {
+      display: inline-flex;
+      align-items: center;
+      gap: 6px;
+      background: rgba(76,175,80,0.12);
+      border: 1px solid rgba(76,175,80,0.25);
+      border-radius: 999px;
+      padding: 6px 14px;
+      font-size: 12px;
+      color: var(--green);
+      font-weight: 600;
+      margin-top: 20px;
+    }
+
+    .download-version::before {
+      content: '';
+      width: 6px;
+      height: 6px;
+      border-radius: 50%;
+      background: var(--green);
+    }
+
+    .download-methods {
+      display: flex;
+      gap: 12px;
+      justify-content: center;
+      flex-wrap: wrap;
+      margin-top: 32px;
+    }
+
+    /* Footer */
+    footer {
+      border-top: 1px solid var(--border);
+      padding: 32px 24px;
+      text-align: center;
+    }
+
+    footer p {
+      font-size: 13px;
+      color: var(--text-muted);
+    }
+
+    footer a {
+      color: var(--text-secondary);
+      text-decoration: none;
+      transition: color 0.2s;
+    }
+
+    footer a:hover {
+      color: var(--accent);
+    }
+
+    .footer-links {
+      display: flex;
+      gap: 24px;
+      justify-content: center;
+      margin-bottom: 12px;
+    }
+
+    .footer-links a {
+      font-size: 13px;
+      display: inline-flex;
+      align-items: center;
+      gap: 6px;
+    }
+
+    /* Responsive */
+    @media (max-width: 768px) {
+      nav {
+        flex-direction: column;
+        gap: 16px;
+      }
+
+      .hero {
+        padding: 48px 0 60px;
+      }
+
+      .hero-actions {
+        flex-direction: column;
+        align-items: center;
+      }
+
+      .hero-mockup {
+        margin-top: 40px;
+      }
+
+      .mockup-phone {
+        width: 180px;
+      }
+
+      section {
+        padding: 48px 0;
+      }
+
+      .features-grid {
+        grid-template-columns: 1fr;
+      }
+
+      .highlights {
+        grid-template-columns: 1fr;
+      }
+
+      .screenshot-grid {
+        gap: 16px;
+      }
+
+      .screenshot-card {
+        width: 200px;
+      }
+
+      .download {
+        padding: 60px 0;
+      }
+    }
+
+    @media (max-width: 480px) {
+      .mockup-phone {
+        width: 140px;
+      }
+
+      .screenshot-card {
+        width: 160px;
+      }
+
+      .screenshot-card:nth-child(3) {
+        display: none;
+      }
+    }
+  </style>
+</head>
+<body>
+
+  <nav>
+    <div class="logo">For<span>Real</span></div>
+    <div class="nav-actions">
+      <a href="#features">Features</a>
+      <a href="#screenshots">Screenshots</a>
+      <a href="#download" class="btn btn-primary">Download</a>
+    </div>
+  </nav>
+
+  <section class="hero">
+    <div class="container">
+      <div class="hero-badge">v1.0.0 — Production Ready</div>
+      <h1><span>Reminders</span> That <span>Stick</span></h1>
+      <p class="hero-sub">
+        ForReal is a strict reminder app that doesn't let you forget. Smart follow-ups,
+        escalation alarms, and 7 categories to keep every part of your life on track.
+      </p>
+      <div class="hero-actions">
+        <a href="#download" class="btn btn-primary btn-lg">Download Now</a>
+        <a href="https://github.com/Shuash11/Strict-Reminder" target="_blank" class="btn btn-outline btn-lg">View on GitHub</a>
+      </div>
+      <div class="hero-mockup">
+        <div class="mockup-phone">
+          <img src="assets/screenshot-home.png" alt="ForReal Home Screen" loading="lazy">
+        </div>
+        <div class="mockup-phone">
+          <img src="assets/screenshot-alarm.png" alt="ForReal Alarm Screen" loading="lazy">
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <section id="features">
+    <div class="container">
+      <div class="features-header">
+        <div class="section-label">Features</div>
+        <h2 class="section-title">7 Reminder Categories</h2>
+        <p class="section-desc">Every part of your routine covered — from medication to self-care, with smart features that adapt to how you respond.</p>
+      </div>
+
+      <div class="features-grid">
+        <div class="feature-card">
+          <div class="feature-icon">💊</div>
+          <h3>Medication</h3>
+          <p>Track dosage, frequency, and get confirmation prompts to verify you took it.</p>
+        </div>
+        <div class="feature-card">
+          <div class="feature-icon green">🍎</div>
+          <h3>Meal</h3>
+          <p>Log breakfast, lunch, dinner, and snacks with optional notes.</p>
+        </div>
+        <div class="feature-card">
+          <div class="feature-icon blue">💧</div>
+          <h3>Hydration</h3>
+          <p>Stay on top of your water intake with recurring reminders.</p>
+        </div>
+        <div class="feature-card">
+          <div class="feature-icon purple">🏋️</div>
+          <h3>Exercise</h3>
+          <p>Set workout reminders and track completion.</p>
+        </div>
+        <div class="feature-card">
+          <div class="feature-icon teal">😴</div>
+          <h3>Sleep</h3>
+          <p>Bedtime and wake-up reminders with sleep log tracking.</p>
+        </div>
+        <div class="feature-card">
+          <div class="feature-icon pink">🧘</div>
+          <h3>Self-Care</h3>
+          <p>Mindfulness, breaks, and personal wellness reminders.</p>
+        </div>
+        <div class="feature-card">
+          <div class="feature-icon amber">✏️</div>
+          <h3>Custom</h3>
+          <p>Create your own reminder type with a custom confirmation question.</p>
+        </div>
+      </div>
+
+      <div class="highlights">
+        <div class="highlight-card">
+          <div class="h-icon" style="background:rgba(255,140,0,0.12);color:var(--accent);">🔔</div>
+          <div>
+            <h3>Smart Follow-Up</h3>
+            <p>If you snooze, ForReal pops right back — you pick the interval. It keeps asking until you confirm.</p>
+          </div>
+        </div>
+        <div class="highlight-card">
+          <div class="h-icon" style="background:rgba(244,67,54,0.12);color:#EF5350;">🚨</div>
+          <div>
+            <h3>Escalation Alarm</h3>
+            <p>After too many snoozes, the alarm escalates — persistent alert that demands your attention.</p>
+          </div>
+        </div>
+        <div class="highlight-card">
+          <div class="h-icon" style="background:rgba(33,150,243,0.12);color:#42A5F5;">📊</div>
+          <div>
+            <h3>History Tracking</h3>
+            <p>Every response is logged. View your history to see patterns in what you complete vs. snooze.</p>
+          </div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <section id="screenshots" class="screenshots">
+    <div class="container">
+      <div class="section-label">Preview</div>
+      <h2 class="section-title">See It In Action</h2>
+      <p class="section-desc">Clean, dark-themed interface designed for focus. Every screen is built for one thing — keeping you accountable.</p>
+      <div class="screenshot-grid">
+        <div class="screenshot-card">
+          <div class="phone-frame">
+            <img src="assets/screenshot-home.png" alt="ForReal Home - reminder list with categories" loading="lazy">
+          </div>
+          <div class="label">Home — Reminder List</div>
+        </div>
+        <div class="screenshot-card">
+          <div class="phone-frame">
+            <img src="assets/screenshot-add.png" alt="ForReal Add Reminder - form with medication fields" loading="lazy">
+          </div>
+          <div class="label">New Reminder Form</div>
+        </div>
+        <div class="screenshot-card">
+          <div class="phone-frame">
+            <img src="assets/screenshot-alarm.png" alt="ForReal Alarm - full-screen confirmation prompt" loading="lazy">
+          </div>
+          <div class="label">Alarm — Confirmation</div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <section id="download" class="download">
+    <div class="container">
+      <div class="section-label">Get Started</div>
+      <h2 class="section-title">Download ForReal</h2>
+      <p class="section-desc" style="margin:0 auto;">
+        Free. No ads. No accounts needed. Download the APK, install, and start keeping yourself accountable.
+      </p>
+      <div class="download-methods">
+        <a href="https://github.com/Shuash11/Strict-Reminder/releases/download/v1.0.0/app-release.apk" target="_blank" class="btn btn-primary btn-lg">Download APK (51 MB)</a>
+        <a href="https://github.com/Shuash11/Strict-Reminder" target="_blank" class="btn btn-outline btn-lg">Source Code</a>
+      </div>
+      <div class="download-version">Latest: v1.0.0</div>
+    </div>
+  </section>
+
+  <footer>
+    <div class="footer-links">
+      <a href="https://github.com/Shuash11/Strict-Reminder" target="_blank">GitHub</a>
+      <a href="https://github.com/Shuash11/Strict-Reminder/releases" target="_blank">Releases</a>
+    </div>
+    <p>&copy; 2026 ForReal. Open source under the MIT License.</p>
+  </footer>
+
+</body>
+</html>

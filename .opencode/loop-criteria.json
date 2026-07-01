@@ -1,12 +1,11 @@
 {
   "criteria": [
-    "All 83 existing tests pass (flutter test exit 0)",
-    "flutter analyze has 0 warnings, 0 errors (1 info ok)",
-    "Database service: no missing CRUD ops, no SQL injection, cascade deletes work correctly",
-    "Alarm service + notification service: no null safety issues, no unhandled exceptions, no timer leaks",
-    "Screens: no BuildContext usage across async gaps, no state management bugs"
+    "Framesmith canvas design scores > 95 with zero cliche/consistency issues",
+    "website/index.html is a self-contained landing page deployable to Netlify",
+    "Page includes: hero with app mockup, features section, screenshots/download, footer",
+    "All image assets for the site are in website/assets/",
+    "Flutter app screenshots are embedded in the page"
   ],
-  "maxIterations": 3,
-  "noProgressLimit": 2,
-  "escalationMessage": "Final bug check loop: unable to clear all criteria after {iterations} iterations."
+  "maxIterations": 5,
+  "noProgressLimit": 2
 }
